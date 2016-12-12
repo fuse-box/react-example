@@ -13,16 +13,20 @@ let fuseBox = new fsbx.FuseBox({
     cache: true,
     outFile: "./build/out.js",
 
-    plugins: [fsbx.SVGPlugin, new fsbx.CSSPlugin(), new fsbx.BabelPlugin({
-        test: /\.jsx$/,
-        config: {
-            sourceMaps: true,
-            presets: ["es2015"],
-            plugins: [
-                ["transform-react-jsx"]
-            ]
-        }
-    })]
+    plugins: [
+        fsbx.SVGPlugin(),
+        fsbx.CSSPlugin(),
+        fsbx.BabelPlugin({
+            test: /\.jsx$/,
+            config: {
+                sourceMaps: true,
+                presets: ["es2015"],
+                plugins: [
+                    ["transform-react-jsx"]
+                ]
+            }
+        })
+    ]
 });
 
 
