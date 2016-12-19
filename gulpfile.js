@@ -17,10 +17,9 @@ let fuseBox = new fsbx.FuseBox({
         fsbx.SVGPlugin(),
         fsbx.CSSPlugin(),
         fsbx.BabelPlugin({
-            test: /\.jsx$/,
             config: {
                 sourceMaps: true,
-                presets: ["es2015"],
+                presets: ["latest"],
                 plugins: [
                     ["transform-react-jsx"]
                 ]
