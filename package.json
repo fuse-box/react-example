@@ -19,6 +19,7 @@
     "babel-preset-latest": "^6.16.0",
     "fuse-box": "^1.3.40",
     "gulp": "^3.9.1",
+    "gulp-server-livereload": "^1.9.2",
     "run-sequence": "^1.2.2",
     "typescript": "^2.1.4"
   }
