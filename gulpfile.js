@@ -11,7 +11,6 @@ let fuseBox = new fsbx.FuseBox({
         bundleReference: "sourcemaps.js.map",
         outFile: "./build/sourcemaps.js.map",
     },
-    cache: false,
     outFile: "./build/out.js",
 
     plugins: [
