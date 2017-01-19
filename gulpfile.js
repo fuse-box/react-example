@@ -33,14 +33,14 @@ gulp.task("build", () => {
     return fuseBox.bundle(">index.jsx +react-dom");
 })
 gulp.task('start', ['build'], function() {
-    gulp.src('')
-        .pipe(server({
-            livereload: {
-                enable: true,
-                filter: (filePath, cb) => cb(filePath.endsWith('build/out.js'))
-            },
-            open: true
-        }));
+    // gulp.src('')
+    //     .pipe(server({
+    //         livereload: {
+    //             enable: true,
+    //             filter: (filePath, cb) => cb(filePath.endsWith('build/out.js'))
+    //         },
+    //         open: true
+    //     }));
     gulp.watch('src/**/*.**', () => {
         runSequence('build');
     });
