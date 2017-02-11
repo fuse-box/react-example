@@ -4,7 +4,8 @@ node_modules/
 .language-cache/
 .vscode/
 yarn.lock
-build/
+build/*
+!build/index.html
 out.js
 .DS_Store
 .tmp/
