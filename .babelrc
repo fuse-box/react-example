@@ -1,0 +1,7 @@
+{
+    "sourceMaps": true,
+    "presets": ["latest"],
+    "plugins": [
+        ["transform-react-jsx"]
+    ]
+}
