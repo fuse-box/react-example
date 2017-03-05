@@ -1,19 +1,16 @@
-const fsbx = require("fuse-box");
+const { FuseBox, SVGPlugin, CSSPlugin, BabelPlugin } = require("fsbx");
 
 
 // Create FuseBox Instance
-let fuseBox = new fsbx.FuseBox({
+let fuse = new FuseBox({
     homeDir: "src/",
-    sourceMap: {
-        bundleReference: "sourcemaps.js.map",
-        outFile: "./build/sourcemaps.js.map",
-    },
+    sourcemaps: true,
     outFile: "./build/out.js",
     plugins: [
-        fsbx.SVGPlugin(),
-        fsbx.CSSPlugin(),
-        fsbx.BabelPlugin()
+        SVGPlugin(),
+        CSSPlugin(),
+        BabelPlugin()
     ]
 });
 
-fuseBox.devServer(">index.jsx");
+fuse.devServer(">index.jsx");
