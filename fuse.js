@@ -1,4 +1,4 @@
-const { FuseBox, SVGPlugin, CSSPlugin, BabelPlugin } = require("fsbx");
+const { FuseBox, SVGPlugin, CSSPlugin, BabelPlugin } = require("fuse-box");
 
 
 // Create FuseBox Instance
