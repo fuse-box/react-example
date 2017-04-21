@@ -1,11 +1,12 @@
 const { FuseBox, SVGPlugin, CSSPlugin, BabelPlugin } = require("fuse-box");
 
+// FuseBox 2.0 is coming soon!
+// http://fuse-box.org:3333/
 
-// Create FuseBox Instance
 let fuse = new FuseBox({
     homeDir: "src/",
     sourcemaps: true,
-    outFile: "./build/out.js",
+    output: "build/$name.js",
     plugins: [
         SVGPlugin(),
         CSSPlugin(),
@@ -13,4 +14,9 @@ let fuse = new FuseBox({
     ]
 });
 
-fuse.devServer(">index.jsx");
+fuse.dev();
+fuse.bundle("app")
+    .watch().hmr()
+    .instructions("> index.jsx")
+
+fuse.run();

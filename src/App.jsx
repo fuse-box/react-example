@@ -2,6 +2,9 @@ import * as React from "react";
 import { Component } from 'react';
 import './App.css';
 import logo from './logo.svg';
+
+//import { Provider } from 'react-redux';
+
 class App extends Component {
     render() {
         return (
