@@ -1,13 +1,23 @@
-const { FuseBox, SVGPlugin, CSSPlugin, BabelPlugin } = require("fuse-box");
+const {
+    FuseBox,
+    SVGPlugin,
+    CSSPlugin,
+    OptimisedBundlePlugin,
+    WebIndexPlugin,
+    BabelPlugin
+} = require("fsbx");
 
-// FuseBox 2.0 is coming soon!
-// http://fuse-box.org:3333/
 
 let fuse = new FuseBox({
     homeDir: "src/",
     sourcemaps: true,
     output: "build/$name.js",
     plugins: [
+        WebIndexPlugin({
+            title: "React Demo",
+            template: "src/index.html"
+        }),
+        OptimisedBundlePlugin(),
         SVGPlugin(),
         CSSPlugin(),
         BabelPlugin()
@@ -16,7 +26,6 @@ let fuse = new FuseBox({
 
 fuse.dev();
 fuse.bundle("app")
-    .watch().hmr()
     .instructions("> index.jsx")
 
 fuse.run();

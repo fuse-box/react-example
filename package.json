@@ -17,6 +17,7 @@
     "babel-core": "^6.20.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-latest": "^6.16.0",
+    "fsbx": "^2.1.0-beta.4",
     "fuse-box": "^2.0.0-beta.1",
     "gulp": "^3.9.1",
     "gulp-server-livereload": "^1.9.2",
