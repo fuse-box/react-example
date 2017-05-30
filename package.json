@@ -18,9 +18,6 @@
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-latest": "^6.16.0",
     "fuse-box": "^2.0.0-beta.1",
-    "gulp": "^3.9.1",
-    "gulp-server-livereload": "^1.9.2",
-    "run-sequence": "^1.2.2",
     "typescript": "^2.1.4"
   }
 }
