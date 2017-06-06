@@ -10,5 +10,6 @@ out.js
 .DS_Store
 .tmp/
 .idea/
+dist/
 sourcemaps.js.map
 .fusebox
