@@ -34,7 +34,7 @@ Sparky.task("config", () => {
     app = fuse.bundle("app").instructions("> [index.jsx]")
 });
 
-Sparky.task("default", ["config"], () => {
+Sparky.task("default", ["clean", "config"], () => {
     fuse.dev();
     // add dev instructions
     app.watch().hmr()
