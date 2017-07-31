@@ -19,7 +19,7 @@
         "babel-core": "^6.20.0",
         "babel-plugin-transform-react-jsx": "^6.8.0",
         "babel-preset-latest": "^6.16.0",
-        "fuse-box": "^2.1.0",
+        "fuse-box": "^2.2.0",
         "typescript": "^2.1.4",
         "uglify-js": "^3.0.15"
     }
