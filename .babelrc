@@ -2,6 +2,6 @@
     "sourceMaps": true,
     "presets": ["latest"],
     "plugins": [
-        ["transform-react-jsx"]
+        ["transform-react-jsx", "transform-runtime"]
     ]
 }

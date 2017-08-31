@@ -35,7 +35,7 @@ Sparky.task("config", () => {
 });
 
 Sparky.task("default", ["clean", "config"], () => {
-    fuse.dev();
+    fuse.dev({open: true});
     // add dev instructions
     app.watch().hmr()
     return fuse.run();
