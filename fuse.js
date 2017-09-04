@@ -16,13 +16,16 @@ Sparky.task("config", () => {
         sourceMaps: !isProduction,
         hash: isProduction,
         output: "dist/$name.js",
+        useTypescriptCompiler: true,
+        experimentalFeatures: true,
         plugins: [
-            SVGPlugin(), CSSPlugin(), BabelPlugin(),
+            SVGPlugin(),
+            CSSPlugin(),
             WebIndexPlugin({
                 template: "src/index.html"
             }),
             isProduction && QuantumPlugin({
-                removeExportsInterop: false,
+                treeshake: true,
                 uglify: true
             })
         ]

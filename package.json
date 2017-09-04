@@ -1,26 +1,24 @@
 {
-    "name": "react-example",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "node fuse",
-        "dist": "node fuse dist",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "react": "^15.4.1",
-        "react-dom": "^15.4.1",
-        "reflect-metadata": "^0.1.8"
-    },
-    "devDependencies": {
-        "babel-core": "^6.20.0",
-        "babel-plugin-transform-react-jsx": "^6.8.0",
-        "babel-preset-latest": "^6.16.0",
-        "fuse-box": "^2.2.0",
-        "typescript": "^2.1.4",
-        "uglify-js": "^3.0.15"
-    }
+  "name": "react-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node fuse",
+    "dist": "node fuse dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1",
+    "reflect-metadata": "^0.1.8"
+  },
+  "devDependencies": {
+    "fuse-box": "^2.2.3",
+    "tslib": "^1.7.1",
+    "typescript": "^2.1.4",
+    "uglify-js": "^3.0.15"
+  }
 }
