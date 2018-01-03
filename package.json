@@ -16,7 +16,7 @@
     "reflect-metadata": "^0.1.8"
   },
   "devDependencies": {
-    "fuse-box": "^2.2.3",
+    "fuse-box": "^3.0.0-next.48",
     "tslib": "^1.7.1",
     "typescript": "^2.1.4",
     "uglify-js": "^3.0.15"

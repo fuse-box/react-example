@@ -1,53 +1,53 @@
-const {
-    FuseBox,
-    SVGPlugin,
-    CSSPlugin,
-    BabelPlugin,
-    QuantumPlugin,
-    WebIndexPlugin,
-    Sparky
-} = require("fuse-box");
+const { FuseBox, Sparky, WebIndexPlugin, ImageBase64Plugin, CSSPlugin, QuantumPlugin } = require("fuse-box");
+const { src, task, watch, context, fuse } = require("fuse-box/sparky");
 
-let fuse, app, vendor, isProduction;
 
-Sparky.task("config", () => {
-    fuse = new FuseBox({
-        homeDir: "src/",
-        sourceMaps: !isProduction,
-        hash: isProduction,
-        output: "dist/$name.js",
-        useTypescriptCompiler: true,
-        experimentalFeatures: true,
-        plugins: [
-            SVGPlugin(),
-            CSSPlugin(),
-            WebIndexPlugin({
-                template: "src/index.html"
-            }),
-            isProduction && QuantumPlugin({
-                treeshake: true,
-                uglify: true
-            })
-        ]
-    });
-    // vendor
-    vendor = fuse.bundle("vendor").instructions("~ index.jsx")
-
-    // bundle app
-    app = fuse.bundle("app").instructions("> [index.jsx]")
+context(class {
+    getConfig() {
+        return FuseBox.init({
+            homeDir: "src",
+            output: "dist/$name.js",
+            target : "browser@es5",
+            hash: this.isProduction,
+            useTypescriptCompiler : true,
+            plugins: [
+                CSSPlugin(),
+                ImageBase64Plugin(),
+                WebIndexPlugin({
+                    template : "src/index.html"
+                }),
+                this.isProduction && QuantumPlugin({
+                    bakeApiIntoBundle: "app",
+                    uglify: true,
+                    extendServerImport: true
+                })
+            ]
+        })
+    }
+    createBundle(fuse) {
+        const app = fuse.bundle("app");
+        if (!this.isProduction) {
+            app.watch()
+            app.hmr()
+        }
+        app.instructions(">index.jsx");
+        return app;
+    }
 });
 
-Sparky.task("default", ["clean", "config"], () => {
+task("clean", () => src("dist").clean("dist").exec() )
+
+task("default", ["clean"], async context => {
+    const fuse = context.getConfig();
     fuse.dev();
-    // add dev instructions
-    app.watch().hmr()
-    return fuse.run();
+    context.createBundle(fuse);
+    await fuse.run();
 });
 
-Sparky.task("clean", () => Sparky.src("dist/").clean("dist/"));
-Sparky.task("prod-env", ["clean"], () => { isProduction = true })
-Sparky.task("dist", ["prod-env", "config"], () => {
-    // comment out to prevent dev server from running (left for the demo)
-    fuse.dev();
-    return fuse.run();
+task("dist", ["clean"], async context => {
+    context.isProduction = true;
+    const fuse = context.getConfig();
+    fuse.dev(); // remove it later
+    context.createBundle(fuse);
+    await fuse.run();
 });
