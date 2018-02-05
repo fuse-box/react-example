@@ -1,4 +1,4 @@
-const { FuseBox, Sparky, WebIndexPlugin, ImageBase64Plugin, CSSPlugin, QuantumPlugin } = require("fuse-box");
+const { FuseBox, Sparky, WebIndexPlugin, SVGPlugin, CSSPlugin, QuantumPlugin } = require("fuse-box");
 const { src, task, watch, context, fuse } = require("fuse-box/sparky");
 
 
@@ -12,14 +12,14 @@ context(class {
             useTypescriptCompiler : true,
             plugins: [
                 CSSPlugin(),
-                ImageBase64Plugin(),
+                SVGPlugin(),
                 WebIndexPlugin({
                     template : "src/index.html"
                 }),
                 this.isProduction && QuantumPlugin({
                     bakeApiIntoBundle: "app",
                     uglify: true,
-                    extendServerImport: true
+                    css : true
                 })
             ]
         })
