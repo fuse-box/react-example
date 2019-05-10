@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node fuse",
-    "dist": "node fuse dist",
+    "start": "ts-node -T fuse",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -16,8 +15,8 @@
     "reflect-metadata": "^0.1.8"
   },
   "devDependencies": {
-    "fuse-box": "3.5.0",
-    "tslib": "^1.7.1",
+    "fuse-box": "^4.0.0-alpha.10",
+    "ts-node": "^8.1.0",
     "typescript": "^2.1.4",
     "uglify-js": "^3.0.15"
   }
