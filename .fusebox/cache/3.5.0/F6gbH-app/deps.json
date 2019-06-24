@@ -1,0 +1,56 @@
+{
+  "tree": {
+    "fusebox-hot-reload@0.0.0": {
+      "deps": {
+        "fusebox-websocket@0.0.0": {
+          "deps": {
+            "events@0.0.0": {
+              "deps": {},
+              "name": "events",
+              "version": "0.0.0"
+            }
+          },
+          "name": "fusebox-websocket",
+          "version": "0.0.0"
+        }
+      },
+      "name": "fusebox-hot-reload",
+      "version": "0.0.0"
+    },
+    "moment@2.24.0": {
+      "deps": {},
+      "name": "moment",
+      "version": "2.24.0"
+    }
+  },
+  "flat": {
+    "fusebox-hot-reload@0.0.0": {
+      "name": "fusebox-hot-reload",
+      "version": "0.0.0",
+      "files": [
+        "index.js"
+      ]
+    },
+    "fusebox-websocket@0.0.0": {
+      "name": "fusebox-websocket",
+      "version": "0.0.0",
+      "files": [
+        "index.js"
+      ]
+    },
+    "events@0.0.0": {
+      "name": "events",
+      "version": "0.0.0",
+      "files": [
+        "index.js"
+      ]
+    },
+    "moment@2.24.0": {
+      "name": "moment",
+      "version": "2.24.0",
+      "files": [
+        "moment.js"
+      ]
+    }
+  }
+}

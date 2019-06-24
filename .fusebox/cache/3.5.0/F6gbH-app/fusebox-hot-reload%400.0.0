@@ -1,0 +1,150 @@
+FuseBox.pkg("fusebox-hot-reload", {}, function(___scope___){
+___scope___.file("index.js", function(exports, require, module, __filename, __dirname){
+
+"use strict";
+/**
+ * @module listens to `source-changed` socket events and actions hot reload
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+var Client = require("fusebox-websocket").SocketClient, bundleErrors = {}, outputElement = document.createElement("div"), styleElement = document.createElement("style"), minimizeToggleId = "fuse-box-toggle-minimized", hideButtonId = "fuse-box-hide", expandedOutputClass = "fuse-box-expanded-output", localStoragePrefix = "__fuse-box_";
+function storeSetting(key, value) {
+    localStorage[localStoragePrefix + key] = value;
+}
+function getSetting(key) {
+    return localStorage[localStoragePrefix + key] === "true" ? true : false;
+}
+var outputInBody = false, outputMinimized = getSetting(minimizeToggleId), outputHidden = false;
+outputElement.id = "fuse-box-output";
+styleElement.innerHTML = "\n    #" + outputElement.id + ", #" + outputElement.id + " * {\n        box-sizing: border-box;\n    }\n    #" + outputElement.id + " {\n        z-index: 999999999999;\n        position: fixed;\n        top: 10px;\n        right: 10px;\n        width: 400px;\n        overflow: auto;\n        background: #fdf3f1;\n        border: 1px solid #eca494;\n        border-radius: 5px;\n        font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n        box-shadow: 0px 3px 6px 1px rgba(0,0,0,.15);\n    }\n    #" + outputElement.id + "." + expandedOutputClass + " {\n        height: auto;\n        width: auto;\n        left: 10px;\n        max-height: calc(100vh - 50px);\n    }\n    #" + outputElement.id + " .fuse-box-errors {\n        display: none;\n    }\n    #" + outputElement.id + "." + expandedOutputClass + " .fuse-box-errors {\n        display: block;\n        border-top: 1px solid #eca494;\n        padding: 0 10px;\n    }\n    #" + outputElement.id + " button {\n        border: 1px solid #eca494;\n        padding: 5px 10px;\n        border-radius: 4px;\n        margin-left: 5px;\n        background-color: white;\n        color: black;\n        box-shadow: 0px 2px 2px 0px rgba(0,0,0,.05);\n    }\n    #" + outputElement.id + " .fuse-box-header {\n        padding: 10px;\n    }\n    #" + outputElement.id + " .fuse-box-header h4 {\n        display: inline-block;\n        margin: 4px;\n    }";
+styleElement.type = "text/css";
+document.getElementsByTagName("head")[0].appendChild(styleElement);
+function displayBundleErrors() {
+    var errorMessages = Object.keys(bundleErrors).reduce(function (allMessages, bundleName) {
+        var bundleMessages = bundleErrors[bundleName];
+        return allMessages.concat(bundleMessages.map(function (message) {
+            var messageOutput = message
+                .replace(/\n/g, "<br>")
+                .replace(/\t/g, "&nbsp;&nbps;&npbs;&nbps;")
+                .replace(/ /g, "&nbsp;");
+            return "<pre>" + messageOutput + "</pre>";
+        }));
+    }, []), errorOutput = errorMessages.join("");
+    if (errorOutput && !outputHidden) {
+        outputElement.innerHTML = "\n        <div class=\"fuse-box-header\" style=\"\">\n            <h4 style=\"\">Fuse Box Bundle Errors (" + errorMessages.length + "):</h4>\n            <div style=\"float: right;\">\n                <button id=\"" + minimizeToggleId + "\">" + (outputMinimized ? "Expand" : "Minimize") + "</button>\n                <button id=\"" + hideButtonId + "\">Hide</button>\n            </div>\n        </div>\n        <div class=\"fuse-box-errors\">\n            " + errorOutput + "\n        </div>\n        ";
+        document.body.appendChild(outputElement);
+        outputElement.className = outputMinimized ? "" : expandedOutputClass;
+        outputInBody = true;
+        document.getElementById(minimizeToggleId).onclick = function () {
+            outputMinimized = !outputMinimized;
+            storeSetting(minimizeToggleId, outputMinimized);
+            displayBundleErrors();
+        };
+        document.getElementById(hideButtonId).onclick = function () {
+            outputHidden = true;
+            displayBundleErrors();
+        };
+    }
+    else if (outputInBody) {
+        document.body.removeChild(outputElement);
+        outputInBody = false;
+    }
+}
+exports.connect = function (port, uri, reloadFullPage) {
+    if (FuseBox.isServer) {
+        return;
+    }
+    port = port || window.location.port;
+    var client = new Client({
+        port: port,
+        uri: uri
+    });
+    client.connect();
+    client.on("page-reload", function (data) {
+        return window.location.reload();
+    });
+    client.on("page-hmr", function (data) {
+        FuseBox.flush();
+        FuseBox.dynamic(data.path, data.content);
+        if (FuseBox.mainFile) {
+            try {
+                FuseBox.import(FuseBox.mainFile);
+            }
+            catch (e) {
+                if (typeof e === "string") {
+                    if (/not found/.test(e)) {
+                        return window.location.reload();
+                    }
+                }
+                console.error(e);
+            }
+        }
+    });
+    client.on("source-changed", function (data) {
+        console.info("%cupdate \"" + data.path + "\"", "color: #237abe");
+        if (reloadFullPage) {
+            return window.location.reload();
+        }
+        /**
+         * If a plugin handles this request then we don't have to do anything
+         **/
+        for (var index = 0; index < FuseBox.plugins.length; index++) {
+            var plugin = FuseBox.plugins[index];
+            if (plugin.hmrUpdate && plugin.hmrUpdate(data)) {
+                return;
+            }
+        }
+        if (data.type === "hosted-css") {
+            var fileId = data.path.replace(/^\//, "").replace(/[\.\/]+/g, "-");
+            var existing = document.getElementById(fileId);
+            if (existing) {
+                existing.setAttribute("href", data.path + "?" + new Date().getTime());
+            }
+            else {
+                var node = document.createElement("link");
+                node.id = fileId;
+                node.type = "text/css";
+                node.rel = "stylesheet";
+                node.href = data.path;
+                document.getElementsByTagName("head")[0].appendChild(node);
+            }
+        }
+        if (data.type === "js" || data.type === "css") {
+            FuseBox.flush();
+            FuseBox.dynamic(data.path, data.content);
+            if (FuseBox.mainFile) {
+                try {
+                    FuseBox.import(FuseBox.mainFile);
+                }
+                catch (e) {
+                    if (typeof e === "string") {
+                        if (/not found/.test(e)) {
+                            return window.location.reload();
+                        }
+                    }
+                    console.error(e);
+                }
+            }
+        }
+    });
+    client.on("error", function (error) {
+        console.log(error);
+    });
+    client.on("bundle-error", function (_a) {
+        var bundleName = _a.bundleName, message = _a.message;
+        console.error("Bundle error in " + bundleName + ": " + message);
+        var errorsForBundle = bundleErrors[bundleName] || [];
+        errorsForBundle.push(message);
+        bundleErrors[bundleName] = errorsForBundle;
+        displayBundleErrors();
+    });
+    client.on("update-bundle-errors", function (_a) {
+        var bundleName = _a.bundleName, messages = _a.messages;
+        messages.forEach(function (message) { return console.error("Bundle error in " + bundleName + ": " + message); });
+        bundleErrors[bundleName] = messages;
+        displayBundleErrors();
+    });
+};
+
+});
+return ___scope___.entry = "index.js";
+});
