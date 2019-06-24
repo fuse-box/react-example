@@ -16,7 +16,7 @@
     "react-dom": "^16.8.6"
   },
   "devDependencies": {
-    "fuse-box": "4.0.0-alpha.43",
+    "fuse-box": "4.0.0-alpha.44",
     "ts-node": "^8.1.0",
     "typescript": "^3.1.0",
     "uglify-js": "^3.0.15"
