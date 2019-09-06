@@ -5,7 +5,7 @@ class Context {
   getConfig = () =>
     fusebox({
       target: "browser",
-      entry: "src/index.jsx",
+      entry: "src/index.tsx",
       webIndex: {
         template: "src/index.html"
       },
