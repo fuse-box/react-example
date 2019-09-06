@@ -23,8 +23,11 @@ export function Details() {
       </div>
 
       <div className="fork">
-        Fork this sandbox, share the link with your friends and watch you code
-        live!
+        Fork this{" "}
+        <a href="https://codesandbox.io/s/github/fuse-box/react-example">
+          sandbox
+        </a>{" "}
+        and share the link with your friends and watch you code live!
       </div>
     </div>
   );
