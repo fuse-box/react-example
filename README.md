@@ -3,6 +3,6 @@
 
 ```
 npm install
-node fuse.js
+npm start
 ```
 
